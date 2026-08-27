@@ -1,4 +1,5 @@
 import http from 'node:http'
+import { URL } from 'node:url'
 
 const porta = 3000
 
@@ -10,9 +11,15 @@ const tarefas = [
 const server = http.createServer((requisicao, resposta) => {
     resposta.setHeader('content-type','application/json; charset=utf-8')
 
+    const urlObj = new URL(requisicao.url, `http:/${requisicao.headers.host}`)
+
     if(requisicao.method == 'GET' && requisicao.url == '/tarefas'){
         resposta.statusCode = 200
         resposta.end(JSON.stringify(tarefas)) //JSON.stringfy trasforma JSON em string
+    }
+    else if(requisicao.method == 'GET' && urlObj.pathname == '/tarefas/busca'){
+        statusCode = 200
+        const titulo = urlObj.searchParams.get ('titulo');
     }
     else if(requisicao.method == 'GET' && requisicao.url == '/tarefa'){
         let body = ''
@@ -37,7 +44,7 @@ const server = http.createServer((requisicao, resposta) => {
 
                 tarefas.push(tarefaCriada)
 
-                resposta.statusCode = 201 //Recuso Criado
+                resposta.statusCode = 201 //Recurso Criado
                 resposta.end(JSON.stringify(tarefaCriada))
 
 
