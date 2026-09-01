@@ -17,10 +17,16 @@ const server = http.createServer((requisicao, resposta) => {
         resposta.statusCode = 200
         resposta.end(JSON.stringify(tarefas)) //JSON.stringfy trasforma JSON em string
     }
-    else if(requisicao.method == 'GET' && urlObj.pathname == '/tarefas/busca'){
+    else if(requisicao.method == 'GET' && urlObj.pathname == '/tarefas/busca'){//nome da rota da query string
+        const titulo = urlObj.searchParams.get('titulo')
+        const filtro = tarefas.filter((tarefa) => {
+            
+            return tarefa.toloworCase().includes(titulo || '').toloworCase()
+        })
         statusCode = 200
         const titulo = urlObj.searchParams.get ('titulo');
     }
+
     else if(requisicao.method == 'GET' && requisicao.url == '/tarefa'){
         let body = ''
 
