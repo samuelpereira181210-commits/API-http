@@ -21,10 +21,25 @@ const server = http.createServer((requisicao, resposta) => {
         const titulo = urlObj.searchParams.get('titulo')
         const filtro = tarefas.filter((tarefa) => {
             
-            return tarefa.toloworCase().includes(titulo || '').toloworCase()
+            tarefa.titulo.toLowerCase().includes(titulo || '')
+            return tarefa.titulo.toLowerCase
         })
         statusCode = 200
-        const titulo = urlObj.searchParams.get ('titulo');
+        resposta.end(JSON.stringify(tarefas))
+    }
+    else if(requisicao.method == 'DELETE' && urlObj.pathname == '/tarefas'){
+        const id = urlObj.searchParams.get('id')
+        const tarefa = tarefa.find((t) => {
+            t.id == id
+        });
+
+        const index = tarefas.index(tarefa);
+        let elementoDeletado
+        if (index > -1){
+            elementoDeletado = tarefas.splice(index, 1)
+        }
+
+        resposta.end(JSON.stringify(elementoDeletado));
     }
 
     else if(requisicao.method == 'GET' && requisicao.url == '/tarefa'){
